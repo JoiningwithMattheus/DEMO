@@ -16,13 +16,8 @@
       <span class="demo-brand-mark">SR</span>
       <span>StockRoom</span>
     </a>
-    <nav class="demo-nav" aria-label="Dashboard demo navigation">
-      <a href="#inventory">Inventory</a>
-      <a href="#orders">Orders</a>
-      <a href="#add">Add item</a>
-      <a href="../../index.html#demos" class="back-link">Portfolio</a>
-    </nav>
-    <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Switch to focus view" aria-expanded="true" title="Switch to focus view">
+    <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Switch to focus view"
+      aria-expanded="true" title="Switch to focus view">
       <span class="sidebar-toggle-icon" aria-hidden="true">
         <span></span>
         <span></span>
@@ -30,16 +25,37 @@
       </span>
       <span class="sidebar-toggle-label">Focus view</span>
     </button>
+    <nav class="demo-nav" aria-label="Dashboard demo navigation">
+      <a href="#inventory">Inventory</a>
+      <a href="#orders">Orders</a>
+      <a href="#add">Add item</a>
+      <a href="../../index.html#demos" class="back-link">Portfolio</a>
+    </nav>
   </header>
 
   <div class="dashboard-frame" id="top">
     <aside class="sidebar" aria-label="Dashboard sidebar">
-      <strong>StockRoom Lite</strong>
-      <nav>
-        <a class="active" href="#inventory">Overview</a>
-        <a href="#inventory">Inventory</a>
-        <a href="#orders">Orders</a>
-        <a href="#add">New stock</a>
+      <div class="sidebar-head">
+        <span class="sidebar-logo">SR</span>
+        <strong class="sidebar-title">StockRoom Lite</strong>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="active" href="#inventory">
+          <span class="nav-icon icon-overview" aria-hidden="true"></span>
+          <span class="nav-text">Overview</span>
+        </a>
+        <a href="#inventory">
+          <span class="nav-icon icon-inventory" aria-hidden="true"></span>
+          <span class="nav-text">Inventory</span>
+        </a>
+        <a href="#orders">
+          <span class="nav-icon icon-orders" aria-hidden="true"></span>
+          <span class="nav-text">Orders</span>
+        </a>
+        <a href="#add">
+          <span class="nav-icon icon-add" aria-hidden="true"></span>
+          <span class="nav-text">New stock</span>
+        </a>
       </nav>
     </aside>
 

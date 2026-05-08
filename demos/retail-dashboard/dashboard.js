@@ -122,11 +122,11 @@ function syncSidebarForViewport() {
 function updateSidebarToggle() {
   const isOpen = !dashboardFrame.classList.contains("sidebar-hidden");
   sidebarToggle.setAttribute("aria-expanded", String(isOpen));
-  sidebarToggle.setAttribute("aria-label", isOpen ? "Switch to focus view" : "Show sidebar menu");
-  sidebarToggle.setAttribute("title", isOpen ? "Switch to focus view" : "Show sidebar menu");
+  sidebarToggle.setAttribute("aria-label", isOpen ? "Collapse sidebar" : "Expand sidebar");
+  sidebarToggle.setAttribute("title", isOpen ? "Collapse sidebar" : "Expand sidebar");
 
   if (sidebarToggleLabel) {
-    sidebarToggleLabel.textContent = isOpen ? "Focus view" : "Show menu";
+    sidebarToggleLabel.textContent = isOpen ? "Focus view" : "Full menu";
   }
 }
 

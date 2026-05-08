@@ -146,7 +146,7 @@ function renderBookingConfirmation(booking) {
   emailBody.textContent = booking.customerEmail.body;
 
   if (emailFailed) {
-    bookingStatus.textContent = "Booking request created. Email delivery needs setup before customers receive automatic confirmation.";
+    bookingStatus.textContent = "Booking confirmed in this demo. Real customer email is not sent yet because Resend still needs a valid API key and sender setup.";
   } else {
     bookingStatus.textContent =
       booking.status === "manual_review"
