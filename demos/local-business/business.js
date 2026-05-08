@@ -73,7 +73,7 @@ async function createBooking(payload) {
   let response;
 
   try {
-    response = await fetch("/api/bookings", {
+    response = await fetch(getBookingEndpoint(), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
@@ -89,6 +89,17 @@ async function createBooking(payload) {
   }
 
   return result;
+}
+
+function getBookingEndpoint() {
+  const isLocalhost = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+  const isStaticDevPort = ["5500", "5501", "5502"].includes(window.location.port);
+
+  if (isLocalhost && isStaticDevPort) {
+    return "http://127.0.0.1:4173/api/bookings";
+  }
+
+  return "/api/bookings";
 }
 
 function createLocalBooking(payload) {

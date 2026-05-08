@@ -20,6 +20,7 @@ const categoryFilter = document.querySelector("#category-filter");
 const stockForm = document.querySelector("#stock-form");
 const stockNote = document.querySelector("#stock-note");
 const sidebarToggle = document.querySelector("#sidebar-toggle");
+const sidebarToggleLabel = document.querySelector(".sidebar-toggle-label");
 const dashboardFrame = document.querySelector(".dashboard-frame");
 const sidebarMedia = window.matchMedia("(max-width: 980px)");
 
@@ -121,6 +122,12 @@ function syncSidebarForViewport() {
 function updateSidebarToggle() {
   const isOpen = !dashboardFrame.classList.contains("sidebar-hidden");
   sidebarToggle.setAttribute("aria-expanded", String(isOpen));
+  sidebarToggle.setAttribute("aria-label", isOpen ? "Switch to focus view" : "Show sidebar menu");
+  sidebarToggle.setAttribute("title", isOpen ? "Switch to focus view" : "Show sidebar menu");
+
+  if (sidebarToggleLabel) {
+    sidebarToggleLabel.textContent = isOpen ? "Focus view" : "Show menu";
+  }
 }
 
 function getStockState(stock) {

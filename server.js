@@ -20,6 +20,12 @@ const mimeTypes = {
 };
 
 const server = http.createServer(async (request, response) => {
+  if (request.method === "OPTIONS" && request.url === "/api/bookings") {
+    response.writeHead(204, getCorsHeaders(request));
+    response.end();
+    return;
+  }
+
   if (request.method === "POST" && request.url === "/api/bookings") {
     handleBooking(request, response);
     return;
@@ -81,12 +87,42 @@ async function handleBooking(request, response) {
       };
     }
 
-    response.writeHead(201, { "Content-Type": "application/json; charset=utf-8" });
+    response.writeHead(201, {
+      "Content-Type": "application/json; charset=utf-8",
+      ...getCorsHeaders(request)
+    });
     response.end(JSON.stringify(booking));
   } catch (error) {
-    response.writeHead(error.statusCode || 400, { "Content-Type": "application/json; charset=utf-8" });
+    response.writeHead(error.statusCode || 400, {
+      "Content-Type": "application/json; charset=utf-8",
+      ...getCorsHeaders(request)
+    });
     response.end(JSON.stringify({ error: error.message }));
   }
+}
+
+function getCorsHeaders(request) {
+  const origin = request.headers.origin;
+
+  if (!origin) {
+    return {};
+  }
+
+  try {
+    const url = new URL(origin);
+
+    if (url.hostname === "127.0.0.1" || url.hostname === "localhost") {
+      return {
+        "Access-Control-Allow-Origin": origin,
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+      };
+    }
+  } catch {
+    return {};
+  }
+
+  return {};
 }
 
 async function sendBookingEmails(booking){
