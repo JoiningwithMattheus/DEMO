@@ -72,20 +72,10 @@ async function handleBooking(request, response) {
     const body = await readJson(request);
     const booking = createBookingResponse(body);
 
-    try {
-      const delivery = await sendBookingEmails(booking);
-      booking.customerEmail.deliveryStatus = "sent";
-      booking.staffEmail.deliveryStatus = "sent";
-      booking.emailDelivery = delivery;
-    } catch (emailError) {
-      booking.customerEmail.deliveryStatus = "failed";
-      booking.staffEmail.deliveryStatus = "failed";
-      booking.emailDelivery = {
-        provider: process.env.EMAIL_PROVIDER || "not_configured",
-        status: "failed",
-        error: emailError.message
-      };
-    }
+    const delivery = await sendBookingEmails(booking);
+    booking.customerEmail.deliveryStatus = delivery.customer.status;
+    booking.staffEmail.deliveryStatus = delivery.staff.status;
+    booking.emailDelivery = delivery;
 
     response.writeHead(201, {
       "Content-Type": "application/json; charset=utf-8",
@@ -142,7 +132,7 @@ async function sendBookingEmails(booking){
     throw createEmailError("STAFF_EMAIL must be your real receiving email address.");
   }
 
-  const customerDelivery = await sendResendEmail({
+  const customer = await trySendResendEmail({
     from: process.env.FROM_EMAIL,
     to: [booking.customerEmail.to],
     subject: booking.customerEmail.subject,
@@ -151,7 +141,7 @@ async function sendBookingEmails(booking){
     replyTo: process.env.STAFF_EMAIL
   });
 
-  const staffDelivery = await sendResendEmail({
+  const staff = await trySendResendEmail({
     from: process.env.FROM_EMAIL,
     to: [process.env.STAFF_EMAIL],
     subject: booking.staffEmail.subject,
@@ -161,19 +151,42 @@ async function sendBookingEmails(booking){
 
   return {
     provider: "resend",
-    customerMessageId: customerDelivery.id,
-    staffMessageId: staffDelivery.id
+    status: getDeliveryStatus(customer, staff),
+    customer,
+    staff
   };
 }
 
-async function sendResendEmail(message) {
+async function trySendResendEmail(message) {
   const { data, error } = await resend.emails.send(message);
 
   if (error) {
-    throw createEmailError(`Resend rejected the email: ${error.message || "Unknown error"}`);
+    return {
+      status: "failed",
+      error: error.message || "Unknown Resend error"
+    };
   }
 
-  return data;
+  return {
+    status: "sent",
+    messageId: data.id
+  };
+}
+
+function getDeliveryStatus(customer, staff) {
+  if (customer.status === "sent" && staff.status === "sent") {
+    return "sent";
+  }
+
+  if (customer.status === "sent") {
+    return "customer_sent";
+  }
+
+  if (staff.status === "sent") {
+    return "staff_sent";
+  }
+
+  return "failed";
 }
 
 function createEmailError(message) {

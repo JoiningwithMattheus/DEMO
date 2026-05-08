@@ -133,20 +133,25 @@ function createLocalBooking(payload) {
 }
 
 function renderBookingConfirmation(booking) {
-  const emailStatus = booking.emailDelivery?.status || booking.customerEmail.deliveryStatus || "queued";
-  const emailFailed = emailStatus === "failed";
+  const customerStatus = booking.customerEmail.deliveryStatus || booking.emailDelivery?.customer?.status || "queued";
+  const staffStatus = booking.staffEmail?.deliveryStatus || booking.emailDelivery?.staff?.status || "queued";
+  const customerError = booking.emailDelivery?.customer?.error || booking.emailDelivery?.error;
+  const emailFailed = customerStatus === "failed";
+  const emailSent = customerStatus === "sent";
 
   bookingCode.textContent = booking.bookingCode;
   confirmationSummary.textContent = booking.summary;
-  customerEmailLine.textContent = emailFailed
-    ? `Booking was created, but email delivery failed: ${booking.emailDelivery.error}`
-    : `${booking.timing.immediate} Recipient: ${booking.customerEmail.to}.`;
+  customerEmailLine.textContent = getCustomerEmailLine(booking, customerStatus, customerError);
   timingLine.textContent = `${booking.timing.staffConfirmation} ${booking.timing.afterHours}`;
   emailSubject.textContent = booking.customerEmail.subject;
   emailBody.textContent = booking.customerEmail.body;
 
-  if (emailFailed) {
-    bookingStatus.textContent = "Booking confirmed in this demo. Real customer email is not sent yet because Resend still needs a valid API key and sender setup.";
+  if (emailSent && staffStatus === "sent") {
+    bookingStatus.textContent = `Booking confirmed. Confirmation email sent to ${booking.customerEmail.to}, and staff was notified.`;
+  } else if (emailSent) {
+    bookingStatus.textContent = `Booking confirmed. Confirmation email sent to ${booking.customerEmail.to}; staff notification still needs email setup.`;
+  } else if (emailFailed) {
+    bookingStatus.textContent = `Booking confirmed in this demo. Customer email was not sent: ${customerError || "email provider setup is incomplete."}`;
   } else {
     bookingStatus.textContent =
       booking.status === "manual_review"
@@ -155,4 +160,16 @@ function renderBookingConfirmation(booking) {
   }
 
   bookingConfirmation.hidden = false;
+}
+
+function getCustomerEmailLine(booking, status, error) {
+  if (status === "sent") {
+    return `Confirmation email sent to ${booking.customerEmail.to}.`;
+  }
+
+  if (status === "failed") {
+    return `Booking was created, but customer email was not sent: ${error || "email provider setup is incomplete."}`;
+  }
+
+  return `${booking.timing.immediate} Recipient: ${booking.customerEmail.to}.`;
 }
