@@ -10,6 +10,7 @@ const menuItems = [
 const menuGrid = document.querySelector("#menu-grid");
 const filterButtons = document.querySelectorAll("[data-filter]");
 const bookingForm = document.querySelector("#booking-form");
+const bookingSubmit = document.querySelector("#booking-submit");
 const bookingStatus = document.querySelector("#booking-status");
 const bookingConfirmation = document.querySelector("#booking-confirmation");
 const bookingCode = document.querySelector("#booking-code");
@@ -18,6 +19,7 @@ const customerEmailLine = document.querySelector("#customer-email-line");
 const timingLine = document.querySelector("#timing-line");
 const emailSubject = document.querySelector("#email-subject");
 const emailBody = document.querySelector("#email-body");
+let bookingRequestInFlight = false;
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -28,9 +30,17 @@ filterButtons.forEach((button) => {
 
 bookingForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+
+  if (bookingRequestInFlight) {
+    return;
+  }
+
   const data = new FormData(bookingForm);
   const payload = Object.fromEntries(data.entries());
 
+  bookingRequestInFlight = true;
+  bookingSubmit.disabled = true;
+  bookingSubmit.textContent = "Sending confirmation...";
   bookingStatus.textContent = "Creating booking request...";
 
   try {
@@ -38,6 +48,10 @@ bookingForm.addEventListener("submit", async (event) => {
     renderBookingConfirmation(booking);
   } catch (error) {
     bookingStatus.textContent = error.message;
+  } finally {
+    bookingRequestInFlight = false;
+    bookingSubmit.disabled = false;
+    bookingSubmit.textContent = "Confirm booking request";
   }
 });
 
