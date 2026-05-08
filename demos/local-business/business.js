@@ -106,7 +106,12 @@ function createLocalBooking(payload) {
     customerEmail: {
       to: payload.email.trim(),
       subject: `Corner Bakery booking ${bookingCode}`,
+      deliveryStatus: "preview",
       body: `Hi ${name}, we received your booking request for ${guests} guest${guests === 1 ? "" : "s"} on ${day.toLowerCase()} at ${time}. This email includes the address, arrival time, and a note that final staff confirmation follows within ${responseWindow}.`
+    },
+    emailDelivery: {
+      provider: "local_preview",
+      status: "preview"
     },
     timing: {
       immediate: "Customer confirmation email and staff notification are queued immediately.",
@@ -117,16 +122,26 @@ function createLocalBooking(payload) {
 }
 
 function renderBookingConfirmation(booking) {
+  const emailStatus = booking.emailDelivery?.status || booking.customerEmail.deliveryStatus || "queued";
+  const emailFailed = emailStatus === "failed";
+
   bookingCode.textContent = booking.bookingCode;
   confirmationSummary.textContent = booking.summary;
-  customerEmailLine.textContent = `${booking.timing.immediate} Recipient: ${booking.customerEmail.to}.`;
+  customerEmailLine.textContent = emailFailed
+    ? `Booking was created, but email delivery failed: ${booking.emailDelivery.error}`
+    : `${booking.timing.immediate} Recipient: ${booking.customerEmail.to}.`;
   timingLine.textContent = `${booking.timing.staffConfirmation} ${booking.timing.afterHours}`;
   emailSubject.textContent = booking.customerEmail.subject;
   emailBody.textContent = booking.customerEmail.body;
 
-  bookingStatus.textContent =
-    booking.status === "manual_review"
-      ? "Large group request created. Customer email and bakery notification are queued; staff review follows."
-      : "Booking request created. Customer email and bakery notification are queued.";
+  if (emailFailed) {
+    bookingStatus.textContent = "Booking request created. Email delivery needs setup before customers receive automatic confirmation.";
+  } else {
+    bookingStatus.textContent =
+      booking.status === "manual_review"
+        ? "Large group request created. Customer email and bakery notification are queued; staff review follows."
+        : "Booking request created. Customer email and bakery notification are queued.";
+  }
+
   bookingConfirmation.hidden = false;
 }

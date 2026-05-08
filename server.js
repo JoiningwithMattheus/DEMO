@@ -65,10 +65,22 @@ async function handleBooking(request, response) {
   try {
     const body = await readJson(request);
     const booking = createBookingResponse(body);
-    const delivery = await sendBookingEmails(booking);
-    booking.customerEmail.deliveryStatus = "sent";
-    booking.staffEmail.deliveryStatus = "sent";
-    booking.emailDelivery = delivery;
+
+    try {
+      const delivery = await sendBookingEmails(booking);
+      booking.customerEmail.deliveryStatus = "sent";
+      booking.staffEmail.deliveryStatus = "sent";
+      booking.emailDelivery = delivery;
+    } catch (emailError) {
+      booking.customerEmail.deliveryStatus = "failed";
+      booking.staffEmail.deliveryStatus = "failed";
+      booking.emailDelivery = {
+        provider: process.env.EMAIL_PROVIDER || "not_configured",
+        status: "failed",
+        error: emailError.message
+      };
+    }
+
     response.writeHead(201, { "Content-Type": "application/json; charset=utf-8" });
     response.end(JSON.stringify(booking));
   } catch (error) {
