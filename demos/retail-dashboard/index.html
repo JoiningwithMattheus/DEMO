@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockRoom Demo | Small Business Dashboard</title>
+  <meta name="description" content="Standalone demo for a small business inventory and order dashboard." />
+  <link rel="stylesheet" href="../demo.css" />
+  <script defer src="dashboard.js"></script>
+</head>
+
+<body class="dashboard-body">
+  <header class="demo-topbar dashboard-topbar">
+    <a class="demo-brand" href="#top">
+      <span class="demo-brand-mark">SR</span>
+      <span>StockRoom</span>
+    </a>
+    <nav class="demo-nav" aria-label="Dashboard demo navigation">
+      <a href="#inventory">Inventory</a>
+      <a href="#orders">Orders</a>
+      <a href="#add">Add item</a>
+      <a href="../../index.html#demos" class="back-link">Portfolio</a>
+    </nav>
+    <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Toggle sidebar" aria-expanded="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <div class="dashboard-frame" id="top">
+    <aside class="sidebar" aria-label="Dashboard sidebar">
+      <strong>StockRoom Lite</strong>
+      <nav>
+        <a class="active" href="#inventory">Overview</a>
+        <a href="#inventory">Inventory</a>
+        <a href="#orders">Orders</a>
+        <a href="#add">New stock</a>
+      </nav>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="dashboard-header">
+        <div>
+          <p class="eyebrow">Admin dashboard demo</p>
+          <h1>Daily operations for a small shop</h1>
+          <p class="muted">
+            A realistic client portal for stock tracking, order status, and
+            quick admin actions.
+          </p>
+        </div>
+        <a class="button secondary" href="../../index.html#contact">Request similar build</a>
+      </div>
+
+      <section class="metric-grid" aria-label="Dashboard metrics">
+        <article class="metric-card">
+          <p class="muted">Revenue today</p>
+          <strong id="metric-revenue">EUR 0</strong>
+        </article>
+        <article class="metric-card">
+          <p class="muted">Low-stock items</p>
+          <strong id="metric-low">0</strong>
+        </article>
+        <article class="metric-card">
+          <p class="muted">Open orders</p>
+          <strong id="metric-orders">0</strong>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel" id="inventory">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Inventory UX</p>
+              <h2>Searchable stock table</h2>
+            </div>
+            <span class="pill good" id="inventory-count">0 items</span>
+          </div>
+
+          <div class="table-toolbar">
+            <label>
+              Search
+              <input id="inventory-search" type="search" placeholder="Search product" />
+            </label>
+            <label>
+              Category
+              <select id="category-filter">
+                <option value="all">All categories</option>
+                <option value="Coffee">Coffee</option>
+                <option value="Bakery">Bakery</option>
+                <option value="Packaging">Packaging</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Product</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Stock</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody id="inventory-table"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <aside class="panel" id="add">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">CRUD flow</p>
+              <h2>Add stock</h2>
+            </div>
+          </div>
+          <form class="stack-form" id="stock-form">
+            <label>
+              Product
+              <input name="name" type="text" placeholder="Reusable cups" required />
+            </label>
+            <label>
+              Category
+              <select name="category">
+                <option>Coffee</option>
+                <option>Bakery</option>
+                <option>Packaging</option>
+              </select>
+            </label>
+            <label>
+              Stock
+              <input name="stock" type="number" min="0" value="12" required />
+            </label>
+            <button class="button primary full" type="submit">Add item</button>
+            <p class="form-note" id="stock-note" aria-live="polite">
+              New items appear immediately in the table.
+            </p>
+          </form>
+        </aside>
+      </section>
+
+      <section class="dashboard-grid demo-section" id="orders">
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Order workflow</p>
+              <h2>Orders that need attention</h2>
+            </div>
+          </div>
+          <ul class="task-list" id="order-list"></ul>
+        </article>
+        <article class="panel">
+          <p class="eyebrow">What this sells</p>
+          <h2>Good fit for starter admin apps</h2>
+          <p>
+            Clients can quickly imagine this as a booking manager, product
+            list, volunteer roster, repair queue, or simple CRM.
+          </p>
+          <a class="button dark" href="../../index.html#contact">Ask for a dashboard</a>
+        </article>
+      </section>
+    </main>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Corner Bakery Demo | Local Business Website</title>
+  <meta name="description"
+    content="Standalone demo for a local business website with menu, booking, reviews, and contact sections." />
+  <link rel="stylesheet" href="../demo.css" />
+  <script defer src="business.js"></script>
+</head>
+
+<body>
+  <header class="demo-topbar">
+    <a class="demo-brand" href="#top">
+      <span class="demo-brand-mark">CB</span>
+      <span>Corner Bakery</span>
+    </a>
+    <nav class="demo-nav" aria-label="Business demo navigation">
+      <a href="#menu">Menu</a>
+      <a href="#booking">Booking</a>
+      <a href="#visit">Visit</a>
+      <a href="../../index.html#demos" class="back-link">Portfolio</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="business-hero-page">
+      <div class="business-hero-inner">
+        <div class="business-hero-copy">
+          <p class="eyebrow">Local website demo</p>
+          <h1>Fresh bakery website for real local customers</h1>
+          <p>
+            This is the kind of focused one-page site a cafe, bakery, salon,
+            club, or small service business can use to explain the offer,
+            receive bookings, and look trustworthy on mobile.
+          </p>
+          <div class="business-actions">
+            <a class="button primary" href="#booking">Reserve a table</a>
+            <a class="button secondary" href="#menu">View menu</a>
+          </div>
+        </div>
+
+        <aside class="booking-card" id="booking" aria-labelledby="booking-title">
+          <h2 id="booking-title">Quick booking</h2>
+          <form class="booking-form" id="booking-form">
+            <label>
+              Name
+              <input name="name" type="text" placeholder="Your name" required />
+            </label>
+            <label>
+              Email
+              <input name="email" type="email" placeholder="name@example.com" required />
+            </label>
+            <label>
+              Day
+              <select name="day">
+                <option>Today</option>
+                <option>Tomorrow</option>
+                <option>This weekend</option>
+              </select>
+            </label>
+            <label>
+              Preferred time
+              <select name="time">
+                <option>09:00</option>
+                <option>10:30</option>
+                <option>12:00</option>
+                <option>14:30</option>
+                <option>16:00</option>
+              </select>
+            </label>
+            <label>
+              Guests
+              <input name="guests" type="number" min="1" max="12" value="2" required />
+            </label>
+            <button class="button primary full" type="submit">Confirm booking request</button>
+            <p class="booking-status" id="booking-status" aria-live="polite">
+              Auto email immediately, staff confirmation within 10 minutes during opening hours.
+            </p>
+          </form>
+          <div class="booking-confirmation" id="booking-confirmation" hidden>
+            <div class="confirmation-head">
+              <span class="pill good">Email workflow</span>
+              <strong id="booking-code">CB-0000</strong>
+            </div>
+            <p id="confirmation-summary"></p>
+            <ol class="confirmation-timeline">
+              <li>
+                <span>Now</span>
+                <strong>Customer email generated</strong>
+                <small id="customer-email-line"></small>
+              </li>
+              <li>
+                <span>Now</span>
+                <strong>Bakery notification generated</strong>
+                <small>New request appears in the staff inbox.</small>
+              </li>
+              <li>
+                <span>10 min</span>
+                <strong>Final staff confirmation</strong>
+                <small id="timing-line">During 07:30-18:00 opening hours.</small>
+              </li>
+            </ol>
+            <div class="email-preview">
+              <p class="eyebrow">Customer email preview</p>
+              <strong id="email-subject">Booking request received</strong>
+              <p id="email-body"></p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="demo-section business-info-section">
+      <dl class="info-strip">
+        <div>
+          <dt>Open daily</dt>
+          <dd>07:30 to 18:00</dd>
+        </div>
+        <div>
+          <dt>Pickup</dt>
+          <dd>Online pre-order ready in 20 minutes</dd>
+        </div>
+        <div>
+          <dt>Location</dt>
+          <dd>Stationsplein 12, Enschede</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="demo-section menu-section" id="menu">
+      <div class="section-title">
+        <p class="eyebrow">Menu UX</p>
+        <h2>Menu designed for fast ordering decisions</h2>
+        <p>
+          Customers can scan categories, prices, and next actions without a
+          long PDF menu or confusing social media screenshots.
+        </p>
+      </div>
+      <div class="filter-row" aria-label="Menu category filters">
+        <button class="filter-button active" type="button" data-filter="all">All</button>
+        <button class="filter-button" type="button" data-filter="breakfast">Breakfast</button>
+        <button class="filter-button" type="button" data-filter="lunch">Lunch</button>
+        <button class="filter-button" type="button" data-filter="sweet">Sweet</button>
+      </div>
+      <div class="menu-grid" id="menu-grid"></div>
+    </section>
+
+    <section class="demo-section visit-band" id="visit">
+      <div>
+        <p class="eyebrow">Contact section</p>
+        <h2>Everything a customer checks before visiting</h2>
+        <p>
+          A local business site should make opening hours, address, contact,
+          and next action obvious. This layout is designed for fast scanning
+          on mobile and desktop.
+        </p>
+        <p><strong>Email:</strong> hello@cornerbakery.example</p>
+        <p><strong>Phone:</strong> +31 6 1234 5678</p>
+      </div>
+      <div class="location-card">
+        <div class="route-map" role="img" aria-label="Route preview to Corner Bakery near Enschede station">
+          <span class="map-road road-one"></span>
+          <span class="map-road road-two"></span>
+          <span class="map-road road-three"></span>
+          <span class="map-water"></span>
+          <span class="map-pin">CB</span>
+          <span class="map-label">3 min walk from station</span>
+        </div>
+        <div class="location-actions">
+          <a class="button primary" href="https://www.google.com/maps/search/?api=1&query=Stationsplein%2012%20Enschede"
+            target="_blank" rel="noreferrer">
+            Open route
+          </a>
+          <a class="button secondary" href="mailto:vinhtai20305@gmail.com">Email bakery</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <div class="section-title">
+        <p class="eyebrow">Trust</p>
+        <h2>Reviews and service details make the page sell quietly</h2>
+      </div>
+      <div class="review-grid">
+        <article class="review-card">
+          <h3>Fast to understand</h3>
+          <p>Customers can see the offer, hours, and booking action without hunting.</p>
+        </article>
+        <article class="review-card">
+          <h3>Mobile first</h3>
+          <p>Most small-business visitors come from maps, Instagram, or shared links.</p>
+        </article>
+        <article class="review-card">
+          <h3>Easy to update</h3>
+          <p>Sections can become real CMS content later when the client grows.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Standalone local business website demo.</p>
+    <a href="../../index.html#demos">Back to portfolio</a>
+  </footer>
+</body>
+
+</html>

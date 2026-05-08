@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SenseLine Demo | IoT Monitor</title>
+    <meta
+      name="description"
+      content="Standalone demo for an IoT sensor monitoring dashboard with live chart, thresholds, and device states."
+    />
+    <link rel="stylesheet" href="../demo.css" />
+    <script defer src="iot.js"></script>
+  </head>
+  <body>
+    <header class="demo-topbar">
+      <a class="demo-brand" href="#top">
+        <span class="demo-brand-mark">SL</span>
+        <span>SenseLine</span>
+      </a>
+      <nav class="demo-nav" aria-label="IoT demo navigation">
+        <a href="#monitor">Monitor</a>
+        <a href="#devices">Devices</a>
+        <a href="#alerts">Alerts</a>
+        <a href="../../index.html#demos" class="back-link">Portfolio</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="iot-hero-page">
+        <div class="iot-hero-copy">
+          <p class="eyebrow">IoT dashboard demo</p>
+          <h1>Sensor data that a client can actually read</h1>
+          <p>
+            A hardware-backed project should not stop at blinking LEDs. This
+            demo shows a client-facing monitor with live values, thresholds,
+            history, and device status.
+          </p>
+          <a class="button primary" href="#monitor">View live monitor</a>
+        </div>
+      </section>
+
+      <section class="demo-section" id="monitor">
+        <div class="section-title">
+          <p class="eyebrow">Live monitor</p>
+          <h2>Temperature, vibration, and threshold logic</h2>
+        </div>
+
+        <div class="device-grid" aria-label="Sensor metrics">
+          <article class="sensor-card">
+            <p class="muted">Temperature</p>
+            <strong id="temp-value">23.4 C</strong>
+            <span class="pill good">Stable</span>
+          </article>
+          <article class="sensor-card">
+            <p class="muted">Vibration</p>
+            <strong id="vibration-value">0.42 g</strong>
+            <span class="pill" id="vibration-pill">Normal</span>
+          </article>
+          <article class="sensor-card">
+            <p class="muted">Line status</p>
+            <strong id="line-status">Normal</strong>
+            <span class="pill good">Streaming</span>
+          </article>
+        </div>
+
+        <div class="iot-grid">
+          <article class="panel">
+            <div class="sensor-toolbar">
+              <div>
+                <p class="eyebrow">History</p>
+                <h2>Vibration trend</h2>
+              </div>
+              <div class="control-row">
+                <button class="button secondary" id="toggle-stream" type="button">Pause stream</button>
+                <button class="button dark" id="reset-stream" type="button">Reset</button>
+              </div>
+            </div>
+            <canvas id="sensor-chart" width="940" height="340" aria-label="Simulated vibration chart"></canvas>
+          </article>
+
+          <aside class="panel" id="alerts">
+            <p class="eyebrow">Controls</p>
+            <h2>Alert threshold</h2>
+            <label class="range-line">
+              Warning level
+              <input id="threshold-input" type="range" min="0.45" max="1.05" step="0.05" value="0.75" />
+              <span class="muted" id="threshold-label">0.75 g</span>
+            </label>
+            <p>
+              Changing the threshold updates the chart line and status logic,
+              which is the kind of interaction clients expect from a useful
+              monitoring prototype.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="demo-section" id="devices">
+        <div class="section-title">
+          <p class="eyebrow">Devices</p>
+          <h2>Prototype status overview</h2>
+        </div>
+        <div class="device-grid">
+          <article class="device-card">
+            <p class="muted">Sensor node A</p>
+            <strong>Online</strong>
+            <span class="pill good">STM32 + IMU</span>
+          </article>
+          <article class="device-card">
+            <p class="muted">Gateway</p>
+            <strong>Online</strong>
+            <span class="pill good">Wi-Fi bridge</span>
+          </article>
+          <article class="device-card">
+            <p class="muted">Maintenance</p>
+            <strong>Next week</strong>
+            <span class="pill warn">Battery check</span>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Standalone IoT monitor demo.</p>
+      <a href="../../index.html#demos">Back to portfolio</a>
+    </footer>
+  </body>
+</html>
